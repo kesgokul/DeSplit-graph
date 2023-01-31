@@ -1,0 +1,31 @@
+type ActiveExpense @entity {
+  id: ID!
+  payer: Bytes!
+  to: Bytes!
+  # splitBy: [Bytes!]!
+  splitAmounts: [BigInt!]!
+  expenseIndex: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ExpenseSettled @entity {
+  id: ID!
+  settler: Bytes! # address
+  payer: Bytes! # address
+  expenseIndex: BigInt! # uint256
+  splitAmount: BigInt! # uint256
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PaymentExpenseCreated @entity {
+  id: ID!
+  payer: Bytes! # address
+  to: Bytes! # address
+  # splitBy: [Bytes!]! # address[]
+  splitAmounts: [BigInt!]! # uint256[]
+  expenseIndex: BigInt! # uint256
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

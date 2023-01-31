@@ -1,0 +1,27 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: DeSplit
+    network: goerli
+    source:
+      address: "0xA74c0C03A05B94a67FDc09351b312f122308335d"
+      abi: DeSplit
+      startBlock: 8402740
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ExpenseSettled
+        - PaymentExpenseCreated
+      abis:
+        - name: DeSplit
+          file: ./abis/DeSplit.json
+      eventHandlers:
+        - event: ExpenseSettled(address,address,uint256,uint256)
+          handler: handleExpenseSettled
+        - event: PaymentExpenseCreated(address,address,address[],uint256[],uint256)
+          handler: handlePaymentExpenseCreated
+      file: ./src/de-split.ts
