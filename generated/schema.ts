@@ -60,6 +60,15 @@ export class ActiveExpense extends Entity {
     this.set("to", Value.fromBytes(value));
   }
 
+  get splitBy(): Array<Bytes> {
+    let value = this.get("splitBy");
+    return value!.toBytesArray();
+  }
+
+  set splitBy(value: Array<Bytes>) {
+    this.set("splitBy", Value.fromBytesArray(value));
+  }
+
   get splitAmounts(): Array<BigInt> {
     let value = this.get("splitAmounts");
     return value!.toBigIntArray();
@@ -235,6 +244,15 @@ export class PaymentExpenseCreated extends Entity {
 
   set to(value: Bytes) {
     this.set("to", Value.fromBytes(value));
+  }
+
+  get splitBy(): Array<Bytes> {
+    let value = this.get("splitBy");
+    return value!.toBytesArray();
+  }
+
+  set splitBy(value: Array<Bytes>) {
+    this.set("splitBy", Value.fromBytesArray(value));
   }
 
   get splitAmounts(): Array<BigInt> {

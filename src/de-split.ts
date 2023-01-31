@@ -22,19 +22,17 @@ export function handleExpenseSettled(event: ExpenseSettledEvent): void {
     settledExpense = new ExpenseSettled(id);
   }
 
-  // if (activeExpense) {
-  //   // Getting the index of the address settling the expense from the expense's splitBy array.
-  //   const settlerIndex = activeExpense.splitBy?.indexOf(event.params.param0);
+  if (activeExpense) {
+    // Getting the index of the address settling the expense from the expense's splitBy array.
+    const settlerIndex = activeExpense.splitBy.indexOf(event.params.param0);
 
-  //   // set the splitAmount of the settler to 0
-  //   if (settlerIndex) {
-  //     let splitAmounts: BigInt[] = activeExpense.splitAmounts;
-  //     splitAmounts[settlerIndex] = new BigInt(0);
-  //     activeExpense.splitAmounts = splitAmounts;
-  //   }
+    // set the splitAmount of the settler to 0
+    let splitAmounts: BigInt[] = activeExpense.splitAmounts;
+    splitAmounts[settlerIndex] = new BigInt(0);
+    activeExpense.splitAmounts = splitAmounts;
 
-  //   activeExpense.save();
-  // }
+    activeExpense.save();
+  }
 
   settledExpense.settler = event.params.param0;
   settledExpense.payer = event.params.param1;
@@ -63,11 +61,11 @@ export function handlePaymentExpenseCreated(
   newExpense.to = event.params.param1;
   activeExpense.to = event.params.param1;
 
-  // const splitAddresses = event.params.param2.map<Bytes>(
-  //   (address: Bytes) => address
-  // );
-  // newExpense.splitBy = event.params.param2;
-  // activeExpense.splitBy = changetype<Bytes[]>(event.params.param2);
+  const splitAddresses = event.params.param2.map<Bytes>(
+    (address: Bytes) => address
+  );
+  newExpense.splitBy = splitAddresses;
+  activeExpense.splitBy = changetype<Bytes[]>(event.params.param2);
 
   newExpense.splitAmounts = event.params.param3;
   activeExpense.splitAmounts = event.params.param3;

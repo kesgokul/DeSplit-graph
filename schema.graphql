@@ -2,7 +2,7 @@ type ActiveExpense @entity {
   id: ID!
   payer: Bytes!
   to: Bytes!
-  # splitBy: [Bytes!]!
+  splitBy: [Bytes!]!
   splitAmounts: [BigInt!]!
   expenseIndex: BigInt!
   blockTimestamp: BigInt!
@@ -23,7 +23,7 @@ type PaymentExpenseCreated @entity {
   id: ID!
   payer: Bytes! # address
   to: Bytes! # address
-  # splitBy: [Bytes!]! # address[]
+  splitBy: [Bytes!]! # address[]
   splitAmounts: [BigInt!]! # uint256[]
   expenseIndex: BigInt! # uint256
   blockTimestamp: BigInt!
