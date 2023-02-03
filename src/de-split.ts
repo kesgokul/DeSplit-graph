@@ -11,11 +11,17 @@ import {
 
 export function handleExpenseSettled(event: ExpenseSettledEvent): void {
   // Id with payer + expenseIndex to get the ActiveExpense
-  const expenseId = getIdFromParams(event.params.param1, event.params.param2);
+  const expenseId = getIdFromParams(
+    event.params.payer,
+    event.params.expenseIndex
+  );
   let activeExpense = ActiveExpense.load(expenseId);
 
   // will calculate the Id from the recipienAddress + expenseIndex
-  const id: string = getIdFromParams(event.params.param1, event.params.param2);
+  const id: string = getIdFromParams(
+    event.params.settler,
+    event.params.expenseIndex
+  );
   let settledExpense = ExpenseSettled.load(id);
 
   if (!settledExpense) {
@@ -24,7 +30,7 @@ export function handleExpenseSettled(event: ExpenseSettledEvent): void {
 
   if (activeExpense) {
     // Getting the index of the address settling the expense from the expense's splitBy array.
-    const settlerIndex = activeExpense.splitBy.indexOf(event.params.param0);
+    const settlerIndex = activeExpense.splitBy.indexOf(event.params.settler);
 
     // set the splitAmount of the settler to 0
     let splitAmounts: BigInt[] = activeExpense.splitAmounts;
@@ -34,10 +40,10 @@ export function handleExpenseSettled(event: ExpenseSettledEvent): void {
     activeExpense.save();
   }
 
-  settledExpense.settler = event.params.param0;
-  settledExpense.payer = event.params.param1;
-  settledExpense.expenseIndex = event.params.param2;
-  settledExpense.splitAmount = event.params.param3;
+  settledExpense.settler = event.params.settler;
+  settledExpense.payer = event.params.payer;
+  settledExpense.expenseIndex = event.params.expenseIndex;
+  settledExpense.splitAmount = event.params.splitAmount;
   settledExpense.blockTimestamp = event.block.timestamp;
   settledExpense.transactionHash = event.transaction.hash;
 
@@ -47,7 +53,10 @@ export function handleExpenseSettled(event: ExpenseSettledEvent): void {
 export function handlePaymentExpenseCreated(
   event: PaymentExpenseCreatedEvent
 ): void {
-  const id: string = getIdFromParams(event.params.param0, event.params.param4);
+  const id: string = getIdFromParams(
+    event.params.payer,
+    event.params.expenseIndex
+  );
   let activeExpense = ActiveExpense.load(id);
   let newExpense = new PaymentExpenseCreated(id);
 
@@ -55,23 +64,24 @@ export function handlePaymentExpenseCreated(
     activeExpense = new ActiveExpense(id);
   }
 
-  newExpense.payer = event.params.param0;
-  activeExpense.payer = event.params.param0;
+  newExpense.payer = event.params.payer;
+  activeExpense.payer = event.params.payer;
 
-  newExpense.to = event.params.param1;
-  activeExpense.to = event.params.param1;
+  newExpense.to = event.params.to;
+  activeExpense.to = event.params.to;
 
-  const splitAddresses = event.params.param2.map<Bytes>(
+  // two different methods of assinging type Address[] to type Bytes[]
+  const splitAddresses = event.params.splitBy.map<Bytes>(
     (address: Bytes) => address
   );
   newExpense.splitBy = splitAddresses;
-  activeExpense.splitBy = changetype<Bytes[]>(event.params.param2);
+  activeExpense.splitBy = changetype<Bytes[]>(event.params.splitBy);
 
-  newExpense.splitAmounts = event.params.param3;
-  activeExpense.splitAmounts = event.params.param3;
+  newExpense.splitAmounts = event.params.splitAmounts;
+  activeExpense.splitAmounts = event.params.splitAmounts;
 
-  newExpense.expenseIndex = event.params.param4;
-  activeExpense.expenseIndex = event.params.param4;
+  newExpense.expenseIndex = event.params.expenseIndex;
+  activeExpense.expenseIndex = event.params.expenseIndex;
 
   newExpense.blockTimestamp = event.block.timestamp;
   activeExpense.blockTimestamp = event.block.timestamp;

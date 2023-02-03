@@ -23,19 +23,19 @@ export class ExpenseSettled__Params {
     this._event = event;
   }
 
-  get param0(): Address {
+  get settler(): Address {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get param1(): Address {
+  get payer(): Address {
     return this._event.parameters[1].value.toAddress();
   }
 
-  get param2(): BigInt {
+  get expenseIndex(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get param3(): BigInt {
+  get splitAmount(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 }
@@ -53,23 +53,23 @@ export class PaymentExpenseCreated__Params {
     this._event = event;
   }
 
-  get param0(): Address {
+  get payer(): Address {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get param1(): Address {
+  get to(): Address {
     return this._event.parameters[1].value.toAddress();
   }
 
-  get param2(): Array<Address> {
+  get splitBy(): Array<Address> {
     return this._event.parameters[2].value.toAddressArray();
   }
 
-  get param3(): Array<BigInt> {
+  get splitAmounts(): Array<BigInt> {
     return this._event.parameters[3].value.toBigIntArray();
   }
 
-  get param4(): BigInt {
+  get expenseIndex(): BigInt {
     return this._event.parameters[4].value.toBigInt();
   }
 }

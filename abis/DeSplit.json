@@ -12,25 +12,25 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "",
+        "name": "settler",
         "type": "address"
       },
       {
         "indexed": false,
         "internalType": "address",
-        "name": "",
+        "name": "payer",
         "type": "address"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "",
+        "name": "expenseIndex",
         "type": "uint256"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "",
+        "name": "splitAmount",
         "type": "uint256"
       }
     ],
@@ -43,31 +43,31 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "",
+        "name": "payer",
         "type": "address"
       },
       {
         "indexed": false,
         "internalType": "address",
-        "name": "",
+        "name": "to",
         "type": "address"
       },
       {
         "indexed": false,
         "internalType": "address[]",
-        "name": "",
+        "name": "splitBy",
         "type": "address[]"
       },
       {
         "indexed": false,
         "internalType": "uint256[]",
-        "name": "",
+        "name": "splitAmounts",
         "type": "uint256[]"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "",
+        "name": "expenseIndex",
         "type": "uint256"
       }
     ],
